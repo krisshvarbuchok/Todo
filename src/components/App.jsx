@@ -27,29 +27,25 @@ const handleKeyDown = (event)=>{
   if(event.key === 'Enter' && task.trim()){
     
     setList((prevItems) => [...prevItems, {name:task, id: crypto.randomUUID()}])
-    event.target.value = '';
     setTask('')
     
   }
  
 }
 
-const handleInputChange = (event) => {
-    setTask(event.target.value);
-}
 
   return (
     <>
       <div>
         <p>Get things done!</p>
-        <Input placeholder="What is the task today?" value={task} onChange={handleInputChange} onKeyDown={handleKeyDown}/>
+        <Input placeholder="What is the task today?" value={task} onChange={(e) =>setTask(e.target.value)} onKeyDown={handleKeyDown}/>
         
         <Button type="primary" onClick={handleClick}>Add task</Button>
  
-    <Button type="dashed" onClick={handleIconClick} icon={<QuestionOutlined style={{ fontSize: '24px', color: '#08c' }} />}></Button>
+        <Button type="dashed" onClick={handleIconClick} icon={<QuestionOutlined />}></Button>
     
-          <TaskList list={list} setList={setList} task={task} setTask={setTask}/>
-        </div>
+        <TaskList list={list} setList={setList} />
+      </div>
     </>
   )
 }
