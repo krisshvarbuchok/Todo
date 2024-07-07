@@ -1,4 +1,4 @@
-import { EditOutlined, DeleteOutlined, CheckOutlined, SaveOutlined } from '@ant-design/icons';
+import { EditOutlined, DeleteOutlined, SaveOutlined } from '@ant-design/icons';
 import { Button, Typography, Input } from 'antd';
 import { useState, useEffect, useRef } from 'react';
 
@@ -35,7 +35,7 @@ const TaskList =({list, setList}) =>{
     }
   
 
-    useEffect(() => { console.log("componentDidUpdate") }, [list])
+    // useEffect(() => { console.log("componentDidUpdate") }, [list])
 
 
     useEffect(() => {
@@ -54,14 +54,13 @@ const TaskList =({list, setList}) =>{
                 {list.map((item) => {
                     return (<li key={item.id} >
                            {idEdit === item.id ?
-                            (<Input ref={textInput} value={nameEdit} onChange={(e) => setNameEdit(e.target.value)}
-                            onPressEnter={() => handleSave(item.id)}/> ):
+                                <Input ref={textInput} value={nameEdit} onChange={(e) => setNameEdit(e.target.value)}
+                                onPressEnter={() => handleSave(item.id)}/> :
 
-                            <p onClick={() => handleClickDone(item.name)}>
-                                {doneTasks.includes(item.name) ? <Text delete>{item.name}</Text> : item.name}
-                            </p>
-                            
-                        }
+                                <p onClick={() => handleClickDone(item.name)}>
+                                    {doneTasks.includes(item.name) ? <Text delete>{item.name}</Text> : item.name}
+                                </p>
+                            }
                             
                             
                             {idEdit === item.id ? 
