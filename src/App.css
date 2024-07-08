@@ -3,5 +3,81 @@
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
+  background-color: #9254de;
+}
+.app{
+  display: flex;
+  flex-direction: column;
+  background-color: #22075e;
+  border-radius: 5px;
+  padding: 30px;
+}
+.container{
+  width: 300px;
+}
+.input-with-button{
+  display: flex;
+}
+h1{
+  color: white;
+}
+.task{
+  background-color: #9254de;
+  margin: 5px;
+  border-radius: 10px;
+  color: white;
+  list-style-type: none;
+  padding-left: 0; 
+  margin-left: 0;
 }
 
+:where(.css-dev-only-do-not-override-m4timi).ant-typography {
+  color: gray;
+  font-size: 16px
+  
+}
+:where(.css-dev-only-do-not-override-m4timi).ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover {
+  color: #fff;
+  background: #7b00ff;
+}
+
+ul{
+  padding: 0;
+  margin: 0;
+}
+li{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+.input-task{
+  display: flex;
+  width: 150px;
+  margin: 0;
+  padding: 5px;
+  word-break: break-all;
+}
+
+.button-task{
+  margin: 0;
+}
+.button-add-task{
+  background-color: #9254de;
+  border-color: #391085;
+  
+}
+.button-add-task:hover{
+  border-color: #391085;
+  background-color: #22075e;
+  
+}
+
+.button-in-task{
+  border: none;
+  
+}
+.button-in-task:hover{
+  border: none;
+  color: #9254de;
+}

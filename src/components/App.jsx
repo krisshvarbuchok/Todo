@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Input } from 'antd';
+import { Button, Input, Space } from 'antd';
 import { QuestionOutlined } from '@ant-design/icons';
 
 import '../App.css'
@@ -14,9 +14,9 @@ function App() {
   const [task, setTask] = useState('');
   const [list, setList] = useState(arr);
   
-  const handleIconClick = ()=>{
-    console.log('help');
-  }
+  // const handleIconClick = ()=>{
+  //   console.log('help');
+  // }
   const handleClick = ()=>{
     if(!!task.trim()){
     setList((prevItems) => [...prevItems, {name:task, id: crypto.randomUUID()}])
@@ -36,19 +36,20 @@ const handleKeyDown = (event)=>{
 
   return (
     <>
-      <div>
-        <p>Get things done!</p>
-        <Input placeholder="What is the task today?" value={task} onChange={(e) =>setTask(e.target.value)} onKeyDown={handleKeyDown}/>
+      <div className='app container'>
+        <h1>Get things done!</h1>
+        <p className='input-with-button'>
+          <Input placeholder="What is the task today?" value={task} onChange={(e) =>setTask(e.target.value)} onKeyDown={handleKeyDown}/>
         
-        <Button type="primary" onClick={handleClick}>Add task</Button>
+          <Button type="primary" className='button-add-task' onClick={handleClick}>Add task</Button>
  
-        <Button type="dashed" onClick={handleIconClick} icon={<QuestionOutlined />}></Button>
-    
+          {/* <Button type="dashed" onClick={handleIconClick} icon={<QuestionOutlined />}></Button> */}
+        </p>
         <TaskList list={list} setList={setList} />
       </div>
     </>
   )
 }
 
-export default App
+export default App;
 
