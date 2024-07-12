@@ -36,10 +36,6 @@ h1{
   font-size: 16px
   
 }
-:where(.css-dev-only-do-not-override-m4timi).ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover {
-  color: #fff;
-  background: #7b00ff;
-}
 
 ul{
   padding: 0;
@@ -67,11 +63,16 @@ li{
   border-color: #391085;
   
 }
-.button-add-task:hover{
+/* .button-add-task:hover{
   border-color: #391085;
   background-color: #22075e;
   
+} */
+:where(.css-dev-only-do-not-override-m4timi).ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover {
+  color: #fff;
+  background: #7b00ff;
 }
+
 
 .button-in-task{
   border: none;
