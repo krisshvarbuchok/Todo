@@ -1,34 +1,46 @@
-import { EditOutlined, DeleteOutlined, SaveOutlined } from '@ant-design/icons';
-import { Button, Typography, Input, Popconfirm } from 'antd';
 import { useState, useEffect, useRef } from 'react';
+import DeleteTask from './DeleteTask';
+import withLogger from './withLogger';
+import EditTask from './EditTask';
+import InputForEditTask from './InputForEditTask';
+import DoneTask from './DoneTask';
+import WillEditTask from './WillEditTask';
 
-const TaskList = ({ list, setList, editTaskLogger, setEditTaskLogger, setDeleteTaskLogger, doneTaskLogger, setDoneTaskLogger}) => {
-    const { Text } = Typography;
+
+const DeleteTaskListWithHOC = withLogger(DeleteTask);
+const EditTaskListWithHOC = withLogger(EditTask);
+const InputForEditTaskListWithHOC = withLogger(InputForEditTask);
+const DoneTaskListWithHOC = withLogger(DoneTask);
+const WillEditTaskListWithHOC = withLogger(WillEditTask);
+
+
+const TaskList = ({ list, setList}) => {
+
     const textInput = useRef(null);
     const [doneTasks, setDoneTasks] = useState([]);
     const [idEdit, setIdEdit] = useState(null);
-    const [nameEdit, setNameEdit] = useState(null);
+    const [taskEdit, setTaskEdit] = useState(null);
   
-    const handleEdit = (id, name) => {
+    const handleEdit = (id, task, logger) => {
+        logger(task);
         setIdEdit(id);
-        setNameEdit(name);
+        setTaskEdit(task);
     }
 
-    const handleClickDelete = (id, name) => {
-        setDeleteTaskLogger(name);
-   
+    const handleClickDelete = (id, task, logger) => {
+        logger(task);
         setList(list.filter(task => task.id !== id));
     }
-    const handleClickDone = (name) => {
-        setDoneTaskLogger(name);
-        setDoneTasks(prevState => prevState.includes(name) ? prevState.filter(task => task !== name) : [...prevState, name]);
+    const handleClickDone = (task, logger) => {
+        logger(task);
+        setDoneTasks(prevState => prevState.includes(task) ? prevState.filter(item => item !== task) : [...prevState, task]);
     }
 
-    const handleSave = (id) => {
-        setList(list.map(task => task.id === id ? { ...task, name: nameEdit } : task));
-        setEditTaskLogger(nameEdit);
+    const handleSave = (id, task, logger) => {
+        setList(list.map(item => item.id === id ? { ...item, task: taskEdit } : item));
+        logger(task);
         setIdEdit(null);
-        setNameEdit(null);
+        setTaskEdit(null);
     }
 
     useEffect(() => {
@@ -47,24 +59,18 @@ const TaskList = ({ list, setList, editTaskLogger, setEditTaskLogger, setDeleteT
 
                         <div className='input-task'>
                             {idEdit === item.id ?
-                                <Input ref={textInput} value={nameEdit} onChange={(e) => setNameEdit(e.target.value)}
-                                    onPressEnter={() => handleSave(item.id)} /> :
+                                <InputForEditTaskListWithHOC textInput={textInput} taskEdit={taskEdit} setTaskEdit={setTaskEdit} handleSave={handleSave}  id={item.id} task={taskEdit} title={'Task edit'}/> :
 
-                                <p className='input-task' onClick={() => handleClickDone(item.name)}>
-                                    {doneTasks.includes(item.name) ? <Text delete>{item.name}</Text> : item.name}
-                                </p>
+                                <DoneTaskListWithHOC handleClickDone={handleClickDone} doneTasks={doneTasks} task={item.task} title={'Task done'}/>
                             }
                         </div>
                         <div className='button-task'>
                             {idEdit === item.id ?
-                                <Button type="primary" className='button-in-task' ghost onClick={() => handleSave(item.id)}><SaveOutlined style={{ fontSize: '20px', color: 'white' }} /></Button> :
-                                <Button type="primary" className='button-in-task' ghost onClick={() => handleEdit(item.id, item.name)}><EditOutlined style={{ fontSize: '20px', color: 'white' }} /></Button>
+                                <EditTaskListWithHOC handleSave={handleSave}  id={item.id} task={taskEdit} title={'Task edit'}/> :
+                                <WillEditTaskListWithHOC handleEdit={handleEdit} id={item.id}  task={item.task} title={'Task will edit'}/>
                             }
 
-
-                            <Popconfirm title="Are you sure delete this task?" okText="Yes" cancelText="No" onConfirm={() => handleClickDelete(item.id, item.name)}>
-                                <Button type="primary" danger ghost className='button-in-task'><DeleteOutlined style={{ fontSize: '20px' }} /></Button>
-                            </Popconfirm>
+                            <DeleteTaskListWithHOC handleClickDelete={handleClickDelete}  id={item.id} task={item.task} title={'Task delete'}/>
                         </div>
 
                     </li>)
