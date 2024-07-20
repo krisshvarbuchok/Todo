@@ -62,22 +62,26 @@ li{
   border-color: #391085;
   
 }
-/* .button-add-task:hover{
+/* .ant-btn-primary:hover {
+  border-color: #391085;
+  background-color: #22075e;
+} */
+.button-add-task:hover{
   border-color: #391085;
   background-color: #22075e;
   
-} */
-:where(.css-dev-only-do-not-override-m4timi).ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover {
+}
+/* :where(.css-dev-only-do-not-override-m4timi).ant-btn-primary:not(:disabled):not(.ant-btn-disabled):hover {
   color: #fff;
   background: #7b00ff;
-}
+} */
 
 
 .button-in-task{
   border: none;
   
 }
-.button-in-task:hover{
+/* .button-in-task:hover{
   border: none;
   color: #9254de;
-}
+} */
