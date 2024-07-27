@@ -1,3 +1,17 @@
+.form{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    background-color: #391085;
+    padding: 20px;
+    border-radius: 10px;
+    
+}
+.container{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
 .text{
     display: flex;
     color: white;
@@ -13,25 +27,6 @@
    font-size: 16px;
   
 }
-
-.form{
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    background-color: #391085;
-    padding: 20px;
-    border-radius: 10px;
-    
-}
-.container{
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-.radio{
-    color: white;
-    height: 23.6px;
-}
 .warning{
     color: #9254de;
     margin: 0;
@@ -45,7 +40,7 @@
     font-size: 16px;
     margin: auto;
 }
-.log{
+.sign{
     color: white;
     font-size: 16px;
     margin-top: 20px;

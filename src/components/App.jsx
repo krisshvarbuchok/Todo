@@ -1,6 +1,5 @@
 import '../App.css';
-import { Routes, Route, Link } from 'react-router-dom';
-import FormRoutes from '../routes/route';
+import FormRoutes from '../routes/FormRoutes';
 
 
 function App() {
@@ -8,11 +7,7 @@ function App() {
 
 return (
   <>
-    <FormRoutes />
-      hello
-    <Link to='/signUp'>Sing Up</Link>
-    <Link to='/logIn'>Log In</Link>
-    
+   <FormRoutes />    
   </>
 )
 }

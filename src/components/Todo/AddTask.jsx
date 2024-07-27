@@ -1,11 +1,36 @@
 import { Button, Input, ConfigProvider } from 'antd';
 
 const AddTask = ({ logger, task, setTask, setList, setNewTask }) => {
-  const handleClick = () => {
+
+  async function createTask (str){
+    try{
+      const response = await fetch('https://todo-redev.herokuapp.com/api/todos',{
+        method: 'POST',
+        headers:{
+          'accept': 'application/json',
+           Authorization: `Bearer ${ localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        },
+        body:JSON.stringify({
+          "title": str
+        })
+      });
+      const data = await response.json();
+        console.log('создана задача ', data);
+        setList((prevItems) => [...prevItems, data])
+        //return data;
+    }
+    catch(error){
+      console.log('error', error.message);
+    }
+  }
+
+  const handleClick =  () => {
     if (!!task.trim()) {
       setNewTask(task);
       logger(task);
-      setList((prevItems) => [...prevItems, { task: task, id: crypto.randomUUID() }])
+      createTask(task);
+     // setList((prevItems) => [...prevItems, { title: task}])
       setTask('')
     }
   }
@@ -13,7 +38,8 @@ const AddTask = ({ logger, task, setTask, setList, setNewTask }) => {
     if (event.key === 'Enter' && task.trim()) {
       setNewTask(task);
       logger(task);
-      setList((prevItems) => [...prevItems, { task: task, id: crypto.randomUUID() }])
+      createTask(task);
+      //setList((prevItems) => [...prevItems, { title: task }])
       setTask('')
     }
   }
