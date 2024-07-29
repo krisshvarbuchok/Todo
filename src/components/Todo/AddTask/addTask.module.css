@@ -1,0 +1,8 @@
+.inputWithButton{
+    display: flex;
+  }
+  .buttonAddTask{
+    background-color: #9254de;
+    border-color: #391085;
+    
+  }

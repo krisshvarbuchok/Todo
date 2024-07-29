@@ -38,6 +38,7 @@
     font-size: 16px;
 }
 .button{
+    cursor: pointer;
     color: white;
     background-color: #9254de;
     border: none;
@@ -45,8 +46,20 @@
     font-size: 16px;
     margin: auto;
 }
+.button:hover{
+    background: #d3adf7;;
+}
+.button:active{
+    background-color: #722ed1;;
+}
 .log{
     color: white;
     font-size: 16px;
     margin-top: 20px;
+}
+.log :hover{
+    color: #d3adf7;
+}
+.log :active{
+    color: #722ed1;
 }

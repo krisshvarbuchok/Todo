@@ -69,6 +69,7 @@ const LogInForm = () => {
             <div className={styles.sign}>
                 Don't have an account? <Link className={styles.sign} to='/signUp'>Sign Up</Link>!
             </div>
+            
         </>
     )
 }

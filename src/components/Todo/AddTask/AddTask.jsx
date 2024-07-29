@@ -1,4 +1,5 @@
 import { Button, Input, ConfigProvider } from 'antd';
+import styles from './addTask.module.css';
 
 const AddTask = ({ logger, task, setTask, setList, setNewTask }) => {
 
@@ -46,7 +47,7 @@ const AddTask = ({ logger, task, setTask, setList, setNewTask }) => {
 
   return (
     <>
-      <div className='input-with-button'>
+      <div className={styles.inputWithButton}>
         <Input placeholder="What is the task today?" value={task} onChange={(e) => setTask(e.target.value)}
           onKeyDown={handleKeyDown} />
         <ConfigProvider
@@ -59,7 +60,7 @@ const AddTask = ({ logger, task, setTask, setList, setNewTask }) => {
             },
           }}
         >
-          <Button type="primary" className='button-add-task' onClick={handleClick}>Add task</Button>
+          <Button type="primary" className={styles.buttonAddTask} onClick={handleClick}>Add task</Button>
         </ConfigProvider>
       </div>
     </>

@@ -1,10 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
-import DeleteTask from './DeleteTask';
-import withLogger from './withLogger';
-import EditTask from './EditTask';
-import InputForEditTask from './InputForEditTask';
-import DoneTask from './DoneTask';
-import WillEditTask from './WillEditTask';
+import DeleteTask from '../DeleteTask/DeleteTask';
+import withLogger from '../withLogger/withLogger';
+import EditTask from '../EditTask/EditTask';
+import InputForEditTask from '../InputForEditTask/InputForEditTask';
+import DoneTask from '../DoneTask/DoneTask';
+import WillEditTask from '../WillEditTask/WillEditTask';
+import styles from './taskList.module.css';
 
 
 
@@ -118,16 +119,16 @@ const TaskList = ({ list, setList}) => {
             <ul>
 
                 {list.map((item) => {
-                    return (<li key={item.id} className='task'>
+                    return (<li key={item.id} className={styles.task}>
 
-                        <div className='input-task'>
+                        <div className={styles.inputTask}>
                             {idEdit === item.id ?
                                 <InputForEditTaskListWithHOC textInput={textInput} taskEdit={taskEdit} setTaskEdit={setTaskEdit} handleSave={handleSave}  id={item.id} task={taskEdit} title={'Task edit'}/> :
 
                                 <DoneTaskListWithHOC handleClickDone={handleClickDone} id={item.id} doneTasks={doneTasks} task={item.title} title={'Task done'}/>
                             }
                         </div>
-                        <div className='button-task'>
+                        <div className={styles.buttonTask}>
                             {idEdit === item.id ?
                                 <EditTaskListWithHOC handleSave={handleSave}  id={item.id} task={taskEdit} title={'Task edit'}/> :
                                 <WillEditTaskListWithHOC handleEdit={handleEdit} id={item.id}  task={item.title} title={'Task will edit'}/>

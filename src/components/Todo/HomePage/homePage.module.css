@@ -1,3 +1,25 @@
-.link{
-    color: aqua;
+.container{
+    display: flex;
+    flex-direction: column;
 }
+.menu{
+  width: 300px;
+    padding: 20px;
+    background-color: #391085;
+    border-radius: 10px;
+}
+h1{
+    font-size: 20px;
+}
+.link{
+    color: white;
+    font-size: 18px;
+    margin-top: 20px;
+}
+.link :hover{
+    color: #d3adf7;
+}
+.link :active{
+    color: #722ed1;
+}
+

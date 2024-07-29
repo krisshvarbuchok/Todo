@@ -1,0 +1,11 @@
+.app{
+    display: flex;
+    flex-direction: column;
+    background-color: #22075e;
+    border-radius: 5px;
+    padding: 30px;
+    width: 300px;
+  }
+  h1{
+    color: white;
+  }

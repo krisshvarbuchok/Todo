@@ -1,0 +1,15 @@
+.warning{
+    color: white;
+    width: 300px;
+}
+.link{
+    color: white;
+   
+   
+}
+.link:hover{
+    color: #d3adf7;
+}
+.link:active{
+    color: #722ed1;
+}
