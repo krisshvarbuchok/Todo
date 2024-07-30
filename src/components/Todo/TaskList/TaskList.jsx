@@ -19,7 +19,7 @@ const WillEditTaskListWithHOC = withLogger(WillEditTask);
 const TaskList = ({ list, setList}) => {
 
     const textInput = useRef(null);
-    const [doneTasks, setDoneTasks] = useState([]);
+    const [isCompleted, setIsCompleted] = useState(list.map(item => ({ id: item.id, isCompleted: item.isCompleted })));
     const [idEdit, setIdEdit] = useState(null);
     const [taskEdit, setTaskEdit] = useState(null);
     
@@ -75,7 +75,8 @@ const TaskList = ({ list, setList}) => {
                 })
             });
             const data = await response.json();
-            setDoneTasks(prevState => prevState.includes(task) ? prevState.filter(item => item !== task) : [...prevState, task]);
+            console.log(boolean);
+            setIsCompleted(prevState => prevState.map(item => item.id === id ? { ...item, isCompleted: !boolean } : item));
             console.log('сделано/ не сделано', data);
         }catch(error) {
             console.log("error: ", error);
@@ -93,9 +94,11 @@ const TaskList = ({ list, setList}) => {
         deleteTaskAPI(id)
         //setList(list.filter(task => task.id !== id));
     }
-    const handleClickDone = (task,id, logger) => {
+    const handleClickDone = (task,id, logger, isCompleted) => {
+        console.log(isCompleted);
         logger(task);
-        editIsComplitedAPI(id, task, doneTasks.includes(task))
+        //setIsCompteted(!isCompletedTask)
+        editIsComplitedAPI(id, task, !isCompleted)
         //setDoneTasks(prevState => prevState.includes(task) ? prevState.filter(item => item !== task) : [...prevState, task]);
     }
 
@@ -119,13 +122,14 @@ const TaskList = ({ list, setList}) => {
             <ul>
 
                 {list.map((item) => {
+                    const taskStatus = isCompleted.find(task => task.id === item.id)?.isCompleted;
                     return (<li key={item.id} className={styles.task}>
 
                         <div className={styles.inputTask}>
                             {idEdit === item.id ?
                                 <InputForEditTaskListWithHOC textInput={textInput} taskEdit={taskEdit} setTaskEdit={setTaskEdit} handleSave={handleSave}  id={item.id} task={taskEdit} title={'Task edit'}/> :
 
-                                <DoneTaskListWithHOC handleClickDone={handleClickDone} id={item.id} doneTasks={doneTasks} task={item.title} title={'Task done'}/>
+                                <DoneTaskListWithHOC handleClickDone={handleClickDone} id={item.id} isCompleted={taskStatus} task={item.title} title={'Task done'}/>
                             }
                         </div>
                         <div className={styles.buttonTask}>

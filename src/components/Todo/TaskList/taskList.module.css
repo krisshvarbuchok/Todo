@@ -1,18 +1,20 @@
 .inputTask{
     display: flex;
-    width: 150px;
+    width: 175px;
     margin: 0;
     padding: 5px;
-    word-break: break-all;
+    word-break: break-word;
   }
   .task{
     background-color: #9254de;
     margin: 5px;
     border-radius: 10px;
     color: white;
-    list-style-type: none;
+    /* list-style-type: none; */
     padding-left: 0; 
     margin-left: 0;
+    /* word-wrap: break-word; */
+    text-align: left;
   }
   .buttonTask{
     margin: 0;
