@@ -8,7 +8,7 @@ const LogInForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const navigate = useNavigate();
- 
+
 
     async function authorization(obj) {
         try {
@@ -62,14 +62,13 @@ const LogInForm = () => {
                         <p className={styles.warning}>{errors.password?.message}</p>
                     </div>
                 </div>
-             
+
                 <button type='submit' className={styles.button}>Log In</button>
-                
+
             </form>
             <div className={styles.sign}>
                 Don't have an account? <Link className={styles.sign} to='/signUp'>Sign Up</Link>!
             </div>
-            
         </>
     )
 }

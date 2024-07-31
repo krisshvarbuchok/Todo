@@ -1,15 +1,11 @@
-import { Typography } from 'antd';
 import styles from './doneTask.module.css';
 
-const DoneTask =({logger, id, handleClickDone, isCompleted, task})=> {
-    const { Text } = Typography;
+const DoneTask =({logger, id, handleClickDone, list, task})=> {
 
     return(
-        <>
-            <p className={styles.inputTask} onClick={() => handleClickDone(task,id, logger, isCompleted)}>
-                {isCompleted ? <Text delete>{task}</Text> : task}
+            <p className={styles.inputTask} onClick={() => handleClickDone(task,id, logger, list)}>
+                {list.find(item => item.id === id && item.isCompleted) ? <span className={styles.isCompleted}>{task}</span> : task}
             </p>
-        </>
     )
 }
 export default DoneTask;

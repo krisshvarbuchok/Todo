@@ -2,10 +2,8 @@
     display: flex;
     margin: 0;
     padding: 5px;
-  }
-  
-
-:where(.css-dev-only-do-not-override-m4timi).ant-typography {
-  color: gray;
-  line-height:1.5;
 }
+.isCompleted{
+  text-decoration: line-through;
+  color: gray;
+}  

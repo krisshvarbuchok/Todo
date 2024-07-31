@@ -5,11 +5,9 @@ import FormRoutes from '../routes/FormRoutes';
 function App() {
 
 
-return (
-  <>
-   <FormRoutes />    
-  </>
-)
+  return (
+    <FormRoutes />
+  )
 }
 
 export default App;

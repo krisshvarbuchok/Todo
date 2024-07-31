@@ -1,37 +1,27 @@
 import { Button, Input, ConfigProvider } from 'antd';
 import styles from './addTask.module.css';
+import api from '../../../API/api';
+
+
 
 const AddTask = ({ logger, task, setTask, setList, setNewTask }) => {
 
-  async function createTask (str){
-    try{
-      const response = await fetch('https://todo-redev.herokuapp.com/api/todos',{
-        method: 'POST',
-        headers:{
-          'accept': 'application/json',
-           Authorization: `Bearer ${ localStorage.getItem('token')}`,
-          'Content-Type': 'application/json'
-        },
-        body:JSON.stringify({
-          "title": str
-        })
-      });
-      const data = await response.json();
-        console.log('создана задача ', data);
-        setList((prevItems) => [...prevItems, data])
-        //return data;
-    }
-    catch(error){
-      console.log('error', error.message);
+
+  const createTask = async (newTask) => {
+    try {
+      const response = await api.post('/todos', newTask);
+      console.log('Задача успешно создана:', response.data);
+      setList((prevItems) => [...prevItems, response.data])
+    } catch (error) {
+      console.error('Ошибка при создании задачи:', error);
     }
   }
 
-  const handleClick =  () => {
+  const handleClick = () => {
     if (!!task.trim()) {
       setNewTask(task);
       logger(task);
-      createTask(task);
-     // setList((prevItems) => [...prevItems, { title: task}])
+      createTask({title: task});
       setTask('')
     }
   }
@@ -39,31 +29,28 @@ const AddTask = ({ logger, task, setTask, setList, setNewTask }) => {
     if (event.key === 'Enter' && task.trim()) {
       setNewTask(task);
       logger(task);
-      createTask(task);
-      //setList((prevItems) => [...prevItems, { title: task }])
+      createTask({title: task});
       setTask('')
     }
   }
 
   return (
-    <>
-      <div className={styles.inputWithButton}>
-        <Input placeholder="What is the task today?" value={task} onChange={(e) => setTask(e.target.value)}
-          onKeyDown={handleKeyDown} />
-        <ConfigProvider
-          theme={{
-            components: {
-              Button: {
-                colorPrimaryActive: '#b37feb',
-                colorPrimaryHover: '#722ed1',
-              },
+    <div className={styles.inputWithButton}>
+      <Input placeholder="What is the task today?" value={task} onChange={(e) => setTask(e.target.value)}
+        onKeyDown={handleKeyDown} />
+      <ConfigProvider
+        theme={{
+          components: {
+            Button: {
+              colorPrimaryActive: '#b37feb',
+              colorPrimaryHover: '#722ed1',
             },
-          }}
-        >
-          <Button type="primary" className={styles.buttonAddTask} onClick={handleClick}>Add task</Button>
-        </ConfigProvider>
-      </div>
-    </>
+          },
+        }}
+      >
+        <Button type="primary" className={styles.buttonAddTask} onClick={handleClick}>Add task</Button>
+      </ConfigProvider>
+    </div>
   )
 }
 export default AddTask;

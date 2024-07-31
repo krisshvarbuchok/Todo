@@ -6,6 +6,7 @@ import InputForEditTask from '../InputForEditTask/InputForEditTask';
 import DoneTask from '../DoneTask/DoneTask';
 import WillEditTask from '../WillEditTask/WillEditTask';
 import styles from './taskList.module.css';
+import api from '../../../API/api';
 
 
 
@@ -16,72 +17,49 @@ const DoneTaskListWithHOC = withLogger(DoneTask);
 const WillEditTaskListWithHOC = withLogger(WillEditTask);
 
 
-const TaskList = ({ list, setList}) => {
+const TaskList = ({ list, setList }) => {
 
     const textInput = useRef(null);
-    const [isCompleted, setIsCompleted] = useState(list.map(item => ({ id: item.id, isCompleted: item.isCompleted })));
     const [idEdit, setIdEdit] = useState(null);
     const [taskEdit, setTaskEdit] = useState(null);
-    
-    async function deleteTaskAPI (id){
+
+    const deleteTaskAPI = async(id) => {
         try{
-            const response = await fetch(`https://todo-redev.herokuapp.com/api/todos/${id}`, {
-                method: 'DELETE',
-                headers:{
-                    'accept': 'application/json',
-                     Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            });
-            const data = await response.json();
-            console.log('удалено', data);
+            const response = await api.delete(`/todos/${id}`);
+            console.log('Задача удалена:', response.data);
             setList(list.filter(task => task.id !== id));
         }
         catch (error){
-            console.log('error', error.message);
+            console.error('Ошибка при удалении задачи:', error);
         }
     }
 
-    async function editTaskAPI (str, id) {
-        try{
-            const response = await fetch(`https://todo-redev.herokuapp.com/api/todos/${id}`, {
-                method: 'PATCH',
-                headers:{
-                    accept: 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "title": str
-                })
-            });
-            const data = await response.json();
-            setList(list.map(item => item.id === id ? { ...item, title: taskEdit } : item));
-            console.log('изменено на ', data);
-        }catch(error) {
-            console.log("error: ", error);
-        } 
-      }
 
-      async function editIsComplitedAPI(id,task, boolean){
+
+    const editTaskAPI = async(id, editTask) => {
         try{
-            const response = await fetch(`https://todo-redev.herokuapp.com/api/todos/${id}/isCompleted`, {
-                method: 'PATCH',
-                headers:{
-                    accept: 'application/json',
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                },
-                body: JSON.stringify({
-                    "title": boolean
-                })
-            });
-            const data = await response.json();
-            console.log(boolean);
-            setIsCompleted(prevState => prevState.map(item => item.id === id ? { ...item, isCompleted: !boolean } : item));
-            console.log('сделано/ не сделано', data);
-        }catch(error) {
-            console.log("error: ", error);
-        } 
-      }
+            const response = await api.patch(`/todos/${id}`, editTask);
+            console.log('Задача изменена:', response.data);
+            setList(list.map(item => item.id === id ? { ...item, title: taskEdit } : item));
+        }
+        catch (error){
+            console.error('Ошибка при удалении задачи:', error);
+        }
+    }
+
+
+    const editIsComplitedAPI = async(id, boolean) => {
+        try{
+            const response = await api.patch(`/todos/${id}/isCompleted`, boolean);
+            console.log('сделано/ не сделано:', response.data);
+            setList(list.map(item => item.id === id ? {...item, isCompleted: boolean.isCompleted} : item));
+        }
+        catch (error){
+            console.error('Ошибка при удалении задачи:', error);
+        }
+    }
+
+
 
     const handleEdit = (id, task, logger) => {
         logger(task);
@@ -94,17 +72,15 @@ const TaskList = ({ list, setList}) => {
         deleteTaskAPI(id)
         //setList(list.filter(task => task.id !== id));
     }
-    const handleClickDone = (task,id, logger, isCompleted) => {
-        console.log(isCompleted);
+    const handleClickDone = (task, id, logger) => {
+        console.log( list);
         logger(task);
-        //setIsCompteted(!isCompletedTask)
-        editIsComplitedAPI(id, task, !isCompleted)
-        //setDoneTasks(prevState => prevState.includes(task) ? prevState.filter(item => item !== task) : [...prevState, task]);
+        editIsComplitedAPI(id, {isCompleted: !(list.find(item => item.id === id && item.isCompleted ))})
     }
 
     const handleSave = (id, task, logger) => {
         //setList(list.map(item => item.id === id ? { ...item, title: task } : item));
-        editTaskAPI(task, id);
+        editTaskAPI(id,  {title: task});
         logger(task);
         setIdEdit(null);
         setTaskEdit(null);
@@ -116,38 +92,32 @@ const TaskList = ({ list, setList}) => {
         }
     }, [idEdit]);
 
-   
+
     return (
         <>
             <ul>
-
                 {list.map((item) => {
-                    const taskStatus = isCompleted.find(task => task.id === item.id)?.isCompleted;
                     return (<li key={item.id} className={styles.task}>
 
                         <div className={styles.inputTask}>
                             {idEdit === item.id ?
-                                <InputForEditTaskListWithHOC textInput={textInput} taskEdit={taskEdit} setTaskEdit={setTaskEdit} handleSave={handleSave}  id={item.id} task={taskEdit} title={'Task edit'}/> :
+                                <InputForEditTaskListWithHOC textInput={textInput} taskEdit={taskEdit} setTaskEdit={setTaskEdit} handleSave={handleSave} id={item.id} task={taskEdit} title={'Task edit'} /> :
 
-                                <DoneTaskListWithHOC handleClickDone={handleClickDone} id={item.id} isCompleted={taskStatus} task={item.title} title={'Task done'}/>
+                                <DoneTaskListWithHOC handleClickDone={handleClickDone} list={list} id={item.id} task={item.title} title={'Task done'} />
                             }
                         </div>
                         <div className={styles.buttonTask}>
                             {idEdit === item.id ?
-                                <EditTaskListWithHOC handleSave={handleSave}  id={item.id} task={taskEdit} title={'Task edit'}/> :
-                                <WillEditTaskListWithHOC handleEdit={handleEdit} id={item.id}  task={item.title} title={'Task will edit'}/>
+                                <EditTaskListWithHOC handleSave={handleSave} id={item.id} task={taskEdit} title={'Task edit'} /> :
+                                <WillEditTaskListWithHOC handleEdit={handleEdit} id={item.id} task={item.title} title={'Task will edit'} />
                             }
 
-                            <DeleteTaskListWithHOC handleClickDelete={handleClickDelete}  id={item.id} task={item.title} title={'Task delete'}/>
+                            <DeleteTaskListWithHOC handleClickDelete={handleClickDelete} id={item.id} task={item.title} title={'Task delete'} />
                         </div>
 
                     </li>)
-
                 })}
-                
             </ul>
-
-
         </>
     )
 }

@@ -1,8 +1,8 @@
 import styles from './signUpForm.module.css';
 import { useForm } from 'react-hook-form';
-import { Routes, Route, Link } from 'react-router-dom';
-import { useState, useEffect, lazy, Suspense } from 'react';
-const ModalWindow = lazy(()=> import ('../ModalWindow/ModalWindow'));
+import { Link } from 'react-router-dom';
+import { useState, lazy, Suspense } from 'react';
+const ModalWindow = lazy(() => import('../ModalWindow/ModalWindow'));
 
 const SignUpForm = () => {
     const [newUser, setNewUser] = useState('');
@@ -21,10 +21,8 @@ const SignUpForm = () => {
                 body: JSON.stringify(newUser)
             });
             const data = await response.json();
-           // console.log(data);
+            // console.log(data);
             setNewUser(data);
-            //data.message === undefined ? console.log('успешно') : console.log(data.message); 
-            //console.log(data.message);
         } catch (error) {
             console.log("error: ", error.message);
         }
@@ -124,16 +122,15 @@ const SignUpForm = () => {
 
 
             </form>
-            {isModal ? 
-            <Suspense fallback={<div>...Loading...</div>}>
-                <ModalWindow newUser={newUser}/>
-                </Suspense> : 
+            {isModal ?
+                <Suspense fallback={<div>...Loading...</div>}>
+                    <ModalWindow newUser={newUser} />
+                </Suspense> :
                 null}
             <div className={styles.log}>
                 Already have an account? <Link className={styles.log} to='/logIn'>Log In</Link>!
             </div>
         </>
     )
-
 }
 export default SignUpForm;
