@@ -9,10 +9,10 @@ const HomePage = () => {
                 <h1>Hello!</h1>
                 <nav >
                     <div  className={styles.link}>
-                        I've already had an accaunt <Link to='/logIn' className={styles.link}>Log In</Link>
+                        I've already had an account <Link to='/authenticated' className={styles.link}>Log In</Link>
                     </div>
                     <div  className={styles.link}> 
-                        I don't have any accaunt <Link to='/signUp' className={styles.link}>Sing Up</Link>
+                        I don't have any account <Link to='/signUp' className={styles.link}>Sing Up</Link>
                     </div>
                     
                 </nav>

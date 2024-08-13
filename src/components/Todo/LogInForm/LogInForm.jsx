@@ -16,8 +16,8 @@ const LogInForm = () => {
       //console.log( response.data);
       console.log(response);
             localStorage.setItem('token', response.data.token);
-           // console.log(process.env.REACT_APP_BASE_URL);
-            navigate('/mainPage');
+           console.log('захожу', response.data.token);
+            navigate('/authenticated');
     } catch (error) {
       console.error('Ошибка при авторизации:',error.message);
       
