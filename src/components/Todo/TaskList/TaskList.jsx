@@ -7,7 +7,7 @@ import DoneTask from '../DoneTask/DoneTask';
 import WillEditTask from '../WillEditTask/WillEditTask';
 import styles from './taskList.module.css';
 import api from '../../../API/api';
-
+import isCompletedFunction from '../../../helper/isCompleted';
 
 
 const DeleteTaskListWithHOC = withLogger(DeleteTask);
@@ -75,7 +75,7 @@ const TaskList = ({ list, setList }) => {
     const handleClickDone = (task, id, logger) => {
         console.log( list);
         logger(task);
-        editIsComplitedAPI(id, {isCompleted: !(list.find(item => item.id === id && item.isCompleted ))})
+        editIsComplitedAPI(id, {isCompleted: !isCompletedFunction(list, id)})
     }
 
     const handleSave = (id, task, logger) => {

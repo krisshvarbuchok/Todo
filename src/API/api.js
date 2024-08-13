@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+//console.log('Base URL from .env:', import.meta.env.VITE_API_BASE_URL);
+
 const api = axios.create({
-    baseURL: 'https://todo-redev.herokuapp.com/api',
+    baseURL:  import.meta.env.VITE_API_BASE_URL,
     headers: {
         'Content-Type': 'application/json',
         accept: 'application/json',
@@ -21,7 +23,7 @@ const api = axios.create({
   api.interceptors.response.use(response => {
     return response;
   }, error => {
-    if (error.response.status === 401) {
+    if (error.response.status === 401 ) {
       // Например, редирект на страницу логина
       window.location = '/login';
     }
