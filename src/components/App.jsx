@@ -14,8 +14,8 @@ const arr = [
 ];
 
 function App() {
-  const [task, setTask] = useState('');
-  const [list, setList] = useState(arr);
+  //const [task, setTask] = useState('');
+ // const [list, setList] = useState(arr);
   const [newTask, setNewTask] = useState('')
 
 
@@ -24,9 +24,9 @@ return (
     <div className='app container'>
       <h1>Get things done!</h1>
       
-      <AddTaskListWithHOC task={task} setTask={setTask} list={list} setList={setList} setNewTask={setNewTask} title={'Task add'}/>
+      <AddTaskListWithHOC  setNewTask={setNewTask} title={'Task add'}/>
      
-      <TaskList list={list} setList={setList}  newTask={newTask} /> 
+      <TaskList    newTask={newTask} /> 
     </div>
   </>
 )

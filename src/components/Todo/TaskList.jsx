@@ -5,6 +5,7 @@ import EditTask from './EditTask';
 import InputForEditTask from './InputForEditTask';
 import DoneTask from './DoneTask';
 import WillEditTask from './WillEditTask';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const DeleteTaskListWithHOC = withLogger(DeleteTask);
@@ -14,40 +15,41 @@ const DoneTaskListWithHOC = withLogger(DoneTask);
 const WillEditTaskListWithHOC = withLogger(WillEditTask);
 
 
-const TaskList = ({ list, setList}) => {
-
-    const textInput = useRef(null);
-    const [doneTasks, setDoneTasks] = useState([]);
-    const [idEdit, setIdEdit] = useState(null);
-    const [taskEdit, setTaskEdit] = useState(null);
+const TaskList = () => {
+    const {list} = useSelector(state => state.list);
+    console.log(list);
+    // const textInput = useRef(null);
+    // const [doneTasks, setDoneTasks] = useState([]);
+    // const [idEdit, setIdEdit] = useState(null);
+    // const [taskEdit, setTaskEdit] = useState(null);
   
-    const handleEdit = (id, task, logger) => {
-        logger(task);
-        setIdEdit(id);
-        setTaskEdit(task);
-    }
+    // const handleEdit = (id, task, logger) => {
+    //     logger(task);
+    //     setIdEdit(id);
+    //     setTaskEdit(task);
+    // }
 
-    const handleClickDelete = (id, task, logger) => {
-        logger(task);
-        setList(list.filter(task => task.id !== id));
-    }
-    const handleClickDone = (task, logger) => {
-        logger(task);
-        setDoneTasks(prevState => prevState.includes(task) ? prevState.filter(item => item !== task) : [...prevState, task]);
-    }
+    // const handleClickDelete = (id, task, logger) => {
+    //     logger(task);
+    //     setList(list.filter(task => task.id !== id));
+    // }
+    // const handleClickDone = (task, logger) => {
+    //     logger(task);
+    //     setDoneTasks(prevState => prevState.includes(task) ? prevState.filter(item => item !== task) : [...prevState, task]);
+    // }
 
-    const handleSave = (id, task, logger) => {
-        setList(list.map(item => item.id === id ? { ...item, task: taskEdit } : item));
-        logger(task);
-        setIdEdit(null);
-        setTaskEdit(null);
-    }
+    // const handleSave = (id, task, logger) => {
+    //     setList(list.map(item => item.id === id ? { ...item, task: taskEdit } : item));
+    //     logger(task);
+    //     setIdEdit(null);
+    //     setTaskEdit(null);
+    // }
 
-    useEffect(() => {
-        if (idEdit !== null && textInput.current) {
-            textInput.current.focus();
-        }
-    }, [idEdit]);
+    // useEffect(() => {
+    //     if (idEdit !== null && textInput.current) {
+    //         textInput.current.focus();
+    //     }
+    // }, [idEdit]);
 
 
     return (
@@ -56,8 +58,8 @@ const TaskList = ({ list, setList}) => {
 
                 {list.map((item) => {
                     return (<li key={item.id} className='task'>
-
-                        <div className='input-task'>
+                        {item.task}
+                        {/* <div className='input-task'>
                             {idEdit === item.id ?
                                 <InputForEditTaskListWithHOC textInput={textInput} taskEdit={taskEdit} setTaskEdit={setTaskEdit} handleSave={handleSave}  id={item.id} task={taskEdit} title={'Task edit'}/> :
 
@@ -71,7 +73,7 @@ const TaskList = ({ list, setList}) => {
                             }
 
                             <DeleteTaskListWithHOC handleClickDelete={handleClickDelete}  id={item.id} task={item.task} title={'Task delete'}/>
-                        </div>
+                        </div> */}
 
                     </li>)
 
