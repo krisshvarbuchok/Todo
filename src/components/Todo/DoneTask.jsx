@@ -1,12 +1,14 @@
 import { Typography } from 'antd';
+import { useSelector } from 'react-redux';
 
-const DoneTask =({logger, handleClickDone, doneTasks, task})=> {
+const DoneTask =({logger, handleClickDone, task})=> {
     const { Text } = Typography;
+    const {done} = useSelector(state => state.done);
 
     return(
         <>
             <p className='input-task' onClick={() => handleClickDone(task, logger)}>
-                {doneTasks.includes(task) ? <Text delete>{task}</Text> : task}
+                {done.includes(task) ? <Text delete>{task}</Text> : task}
             </p>
         </>
     )

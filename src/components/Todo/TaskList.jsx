@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import DeleteTask from './DeleteTask';
 import withLogger from './withLogger';
 import EditTask from './EditTask';
@@ -6,6 +6,12 @@ import InputForEditTask from './InputForEditTask';
 import DoneTask from './DoneTask';
 import WillEditTask from './WillEditTask';
 import { useDispatch, useSelector } from 'react-redux';
+import { deleteTask } from '../../redux/actions/deleteAction';
+import { doneTask } from '../../redux/actions/doneAction';
+import { editIdTask } from '../../redux/actions/editIdAction';
+import { editTask } from '../../redux/actions/editTaskAction';
+import { addEditedTask } from '../../redux/actions/addEditedAction';
+
 
 
 const DeleteTaskListWithHOC = withLogger(DeleteTask);
@@ -16,40 +22,41 @@ const WillEditTaskListWithHOC = withLogger(WillEditTask);
 
 
 const TaskList = () => {
-    const {list} = useSelector(state => state.list);
-    console.log(list);
-    // const textInput = useRef(null);
-    // const [doneTasks, setDoneTasks] = useState([]);
-    // const [idEdit, setIdEdit] = useState(null);
-    // const [taskEdit, setTaskEdit] = useState(null);
-  
-    // const handleEdit = (id, task, logger) => {
-    //     logger(task);
-    //     setIdEdit(id);
-    //     setTaskEdit(task);
-    // }
+    const { list } = useSelector(state => state.list);
+    const { editId } = useSelector(state => state.editId);
+    const { edit } = useSelector(state => state.edit);
+    const dispatch = useDispatch();
+    const textInput = useRef(null);
 
-    // const handleClickDelete = (id, task, logger) => {
-    //     logger(task);
-    //     setList(list.filter(task => task.id !== id));
-    // }
-    // const handleClickDone = (task, logger) => {
-    //     logger(task);
-    //     setDoneTasks(prevState => prevState.includes(task) ? prevState.filter(item => item !== task) : [...prevState, task]);
-    // }
 
-    // const handleSave = (id, task, logger) => {
-    //     setList(list.map(item => item.id === id ? { ...item, task: taskEdit } : item));
-    //     logger(task);
-    //     setIdEdit(null);
-    //     setTaskEdit(null);
-    // }
+    useEffect(() => {
+        if (editId !== null && textInput.current) {
+            textInput.current.focus();
+        }
+    }, [editId]);
 
-    // useEffect(() => {
-    //     if (idEdit !== null && textInput.current) {
-    //         textInput.current.focus();
-    //     }
-    // }, [idEdit]);
+    const handleClickDelete = (id, task, logger) => {
+        logger(task);
+        dispatch(deleteTask(id));
+    }
+
+    const handleClickDone = (task, logger) => {
+        logger(task);
+        dispatch(doneTask(task));
+    }
+    const handleEdit = (id, task, logger) => {
+        logger(task);
+        dispatch(editIdTask(id));
+        dispatch(editTask(task));
+    }
+
+
+    const handleSave = (task, logger) => {
+        dispatch(addEditedTask(editId, edit));
+        logger(task);
+        dispatch(editIdTask(null));
+        dispatch(editTask(null));
+    }
 
 
     return (
@@ -58,31 +65,24 @@ const TaskList = () => {
 
                 {list.map((item) => {
                     return (<li key={item.id} className='task'>
-                        {item.task}
-                        {/* <div className='input-task'>
-                            {idEdit === item.id ?
-                                <InputForEditTaskListWithHOC textInput={textInput} taskEdit={taskEdit} setTaskEdit={setTaskEdit} handleSave={handleSave}  id={item.id} task={taskEdit} title={'Task edit'}/> :
+                        <div className='input-task'>
+                            {editId === item.id ?
+                                <InputForEditTaskListWithHOC textInput={textInput} handleSave={handleSave} id={item.id} task={edit} title={'Task edit'} /> :
 
-                                <DoneTaskListWithHOC handleClickDone={handleClickDone} doneTasks={doneTasks} task={item.task} title={'Task done'}/>
+                                <DoneTaskListWithHOC handleClickDone={handleClickDone} task={item.task} title={'Task done'} />
                             }
                         </div>
                         <div className='button-task'>
-                            {idEdit === item.id ?
-                                <EditTaskListWithHOC handleSave={handleSave}  id={item.id} task={taskEdit} title={'Task edit'}/> :
-                                <WillEditTaskListWithHOC handleEdit={handleEdit} id={item.id}  task={item.task} title={'Task will edit'}/>
+                            {editId === item.id ?
+                                <EditTaskListWithHOC handleSave={handleSave} id={item.id} task={edit} title={'Task edit'} /> :
+                                <WillEditTaskListWithHOC handleEdit={handleEdit} id={item.id} task={item.task} title={'Task will edit'} />
                             }
 
-                            <DeleteTaskListWithHOC handleClickDelete={handleClickDelete}  id={item.id} task={item.task} title={'Task delete'}/>
-                        </div> */}
-
+                            <DeleteTaskListWithHOC handleClickDelete={handleClickDelete} id={item.id} task={item.task} title={'Task delete'} />
+                        </div>
                     </li>)
-
                 })}
-
             </ul>
-           
-
-
         </>
     )
 }

@@ -1,32 +1,22 @@
-import { useState } from 'react';
 import TaskList from './Todo/TaskList';
 import '../App.css';
 import withLogger from './Todo/withLogger';
 import AddTask from './Todo/AddTask';
+import { useSelector } from 'react-redux';
+
 
 const AddTaskListWithHOC = withLogger(AddTask);
 
-
-const arr = [
-  { id: 1, task: 'купить хлеб'},
-  { id: 2, task: 'вычесать кота' },
-  { id: 3, task: 'принять душ' }
-];
-
 function App() {
-  //const [task, setTask] = useState('');
- // const [list, setList] = useState(arr);
-  const [newTask, setNewTask] = useState('')
-
-
+  const {task} = useSelector(state => state.task);
 return (
   <>
     <div className='app container'>
       <h1>Get things done!</h1>
       
-      <AddTaskListWithHOC  setNewTask={setNewTask} title={'Task add'}/>
+      <AddTaskListWithHOC task={task}  title={'Task add'}/>
      
-      <TaskList    newTask={newTask} /> 
+      <TaskList /> 
     </div>
   </>
 )

@@ -3,25 +3,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addTask } from '../../redux/actions/taskAction';
 import { addNewTask } from '../../redux/actions/listAction';
 
-const AddTask = ({ logger,   setNewTask }) => {
+const AddTask = ({ logger }) => {
   const dispatch = useDispatch();
   const {task} = useSelector(state => state.task);
-  //const {list} = useSelector(state => state.list);
-  //console.log(list);
+
   const handleClick = () => {
     if (!!task.trim()) {
-      //setNewTask(task);
-      //logger(task);
+      logger(task);
       dispatch(addNewTask({ task: task, id: crypto.randomUUID() }));
       dispatch(addTask(''))
     }
   }
   const handleKeyDown = (event) => {
     if (event.key === 'Enter' && task.trim()) {
-      // setNewTask(task);
-      // logger(task);
+      logger(task);
       dispatch(addNewTask({ task: task, id: crypto.randomUUID() }));
-      //setList((prevItems) => [...prevItems, { task: task, id: crypto.randomUUID() }])
       dispatch(addTask(''))
     }
   }
