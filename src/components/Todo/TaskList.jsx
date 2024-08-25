@@ -6,11 +6,11 @@ import InputForEditTask from './InputForEditTask';
 import DoneTask from './DoneTask';
 import WillEditTask from './WillEditTask';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteTask } from '../../redux/actions/deleteAction';
-import { doneTask } from '../../redux/actions/doneAction';
-import { editIdTask } from '../../redux/actions/editIdAction';
-import { editTask } from '../../redux/actions/editTaskAction';
-import { addEditedTask } from '../../redux/actions/addEditedAction';
+import { deleteTask } from '../../redux/reducers/taskRTKReducer';
+import { doneTask } from '../../redux/reducers/doneRTKReducer';
+import { editIdTask } from '../../redux/reducers/editIdRTKReducer';
+import { editTask } from '../../redux/reducers/editTaskRTKReducer';
+import { addEditedTask } from '../../redux/reducers/taskRTKReducer';
 
 
 
@@ -22,9 +22,9 @@ const WillEditTaskListWithHOC = withLogger(WillEditTask);
 
 
 const TaskList = () => {
-    const { list } = useSelector(state => state.list);
-    const { editId } = useSelector(state => state.editId);
-    const { edit } = useSelector(state => state.edit);
+    const list = useSelector(state => state.taskRTKReducer);
+    const editId = useSelector(state => state.editIdRTKReducer);
+    const edit = useSelector(state => state.editTaskRTKReducer);
     const dispatch = useDispatch();
     const textInput = useRef(null);
 
@@ -52,7 +52,7 @@ const TaskList = () => {
 
 
     const handleSave = (task, logger) => {
-        dispatch(addEditedTask(editId, edit));
+        dispatch(addEditedTask({ id: editId, task }));
         logger(task);
         dispatch(editIdTask(null));
         dispatch(editTask(null));
@@ -74,7 +74,7 @@ const TaskList = () => {
                         </div>
                         <div className='button-task'>
                             {editId === item.id ?
-                                <EditTaskListWithHOC handleSave={handleSave} id={item.id} task={edit} title={'Task edit'} /> :
+                                <EditTaskListWithHOC handleSave={handleSave} id={item.id} task={edit} title={'Task edit'} /> : 
                                 <WillEditTaskListWithHOC handleEdit={handleEdit} id={item.id} task={item.task} title={'Task will edit'} />
                             }
 

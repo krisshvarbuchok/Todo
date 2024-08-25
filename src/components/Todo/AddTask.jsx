@@ -1,31 +1,34 @@
 import { Button, Input, ConfigProvider } from 'antd';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTask } from '../../redux/actions/taskAction';
-import { addNewTask } from '../../redux/actions/listAction';
+import { addTask } from '../../redux/reducers/taskRTKReducer';
 
-const AddTask = ({ logger }) => {
+const AddTask = ({ logger}) => {
+  const [taskText, setTaskText] = useState('');
   const dispatch = useDispatch();
-  const {task} = useSelector(state => state.task);
+  //const {task} = useSelector(state => state.task);
 
   const handleClick = () => {
-    if (!!task.trim()) {
-      logger(task);
-      dispatch(addNewTask({ task: task, id: crypto.randomUUID() }));
-      dispatch(addTask(''))
+    if (!!taskText.trim()) {
+      //logger(task);
+      dispatch(addTask(taskText));
+      setTaskText('')
+     // dispatch(addTask(''))
     }
   }
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter' && task.trim()) {
-      logger(task);
-      dispatch(addNewTask({ task: task, id: crypto.randomUUID() }));
-      dispatch(addTask(''))
+    if (event.key === 'Enter' && taskText.trim()) {
+      //logger(task);
+      dispatch(addTask(taskText));
+      setTaskText('')
+     // dispatch(addTask(''))
     }
   }
 
   return (
     <>
       <div className='input-with-button'>
-        <Input placeholder="What is the task today?" value={task} onChange={(e) => dispatch(addTask(e.target.value))}
+        <Input placeholder="What is the task today?" value={taskText} onChange={(e) => setTaskText(e.target.value)}
           onKeyDown={handleKeyDown} />
         <ConfigProvider
           theme={{

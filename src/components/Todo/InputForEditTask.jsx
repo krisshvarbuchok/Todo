@@ -1,11 +1,11 @@
 import { Input } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { editTask } from '../../redux/actions/editTaskAction';
+import { editTask } from '../../redux/reducers/editTaskRTKReducer';
 
 
 const InputForEditTask = ({logger, task, textInput, handleSave}) => {
 
-    const {edit} = useSelector(state => state.edit);
+    const edit = useSelector(state => state.editTaskRTKReducer);
     const dispatch = useDispatch();
     return(
         <>
