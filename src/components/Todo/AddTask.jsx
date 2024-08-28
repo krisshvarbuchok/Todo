@@ -1,34 +1,31 @@
 import { Button, Input, ConfigProvider } from 'antd';
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addTask } from '../../redux/reducers/taskRTKReducer';
+import { taskText } from '../../redux/reducers/newTaskRTKReducer';
 
 const AddTask = ({ logger}) => {
-  const [taskText, setTaskText] = useState('');
   const dispatch = useDispatch();
-  //const {task} = useSelector(state => state.task);
+  const task = useSelector(state => state.newTaskRTKReducer);
 
   const handleClick = () => {
-    if (!!taskText.trim()) {
-      //logger(task);
-      dispatch(addTask(taskText));
-      setTaskText('')
-     // dispatch(addTask(''))
+    if (!!task.trim()) {
+      logger(task);
+      dispatch(addTask(task));
+      dispatch(taskText(''));
     }
   }
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter' && taskText.trim()) {
-      //logger(task);
-      dispatch(addTask(taskText));
-      setTaskText('')
-     // dispatch(addTask(''))
+    if (event.key === 'Enter' && task.trim()) {
+      logger(task);
+      dispatch(addTask(task));
+      dispatch(taskText(''));
     }
   }
 
   return (
     <>
       <div className='input-with-button'>
-        <Input placeholder="What is the task today?" value={taskText} onChange={(e) => setTaskText(e.target.value)}
+        <Input placeholder="What is the task today?" value={task} onChange={(e) => dispatch(taskText(e.target.value))}
           onKeyDown={handleKeyDown} />
         <ConfigProvider
           theme={{
