@@ -6,11 +6,13 @@ import InputForEditTask from './InputForEditTask';
 import DoneTask from './DoneTask';
 import WillEditTask from './WillEditTask';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteTask } from '../../redux/reducers/taskRTKReducer';
+//import { deleteTask } from '../../redux/reducers/taskRTKReducer';
+import { deleteTask } from '../../redux/slices/taskSlice';
 import { doneTask } from '../../redux/reducers/doneRTKReducer';
 import { editIdTask } from '../../redux/reducers/editIdRTKReducer';
 import { editTask } from '../../redux/reducers/editTaskRTKReducer';
-import { addEditedTask } from '../../redux/reducers/taskRTKReducer';
+//import { addEditedTask } from '../../redux/reducers/taskRTKReducer';
+import { addEditedTask } from '../../redux/slices/taskSlice';
 
 
 
@@ -22,7 +24,8 @@ const WillEditTaskListWithHOC = withLogger(WillEditTask);
 
 
 const TaskList = () => {
-    const list = useSelector(state => state.taskRTKReducer);
+    //const list = useSelector(state => state.taskRTKReducer);
+    const list = useSelector(state => state.taskSlice);
     const editId = useSelector(state => state.editIdRTKReducer);
     const edit = useSelector(state => state.editTaskRTKReducer);
     const dispatch = useDispatch();

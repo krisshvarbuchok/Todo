@@ -1,6 +1,7 @@
 import { Button, Input, ConfigProvider } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import { addTask } from '../../redux/reducers/taskRTKReducer';
+//import { addTask } from '../../redux/reducers/taskRTKReducer';
+import { addTask } from '../../redux/slices/taskSlice';
 import { taskText } from '../../redux/reducers/newTaskRTKReducer';
 
 const AddTask = ({ logger}) => {
