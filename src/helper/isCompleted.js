@@ -1,3 +1,5 @@
 
-const isCompletedFunction = (list, id) => list.find(item => item.id === id && item.isCompleted)
+const isCompletedFunction = (data, id) => data.find(item => {
+    return item.id === id ? item.isCompleted : false;
+})
 export default isCompletedFunction;

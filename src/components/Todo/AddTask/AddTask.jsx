@@ -1,27 +1,20 @@
 import { Button, Input, ConfigProvider } from 'antd';
 import styles from './addTask.module.css';
-import api from '../../../API/api';
+import { fetchCreateTask } from '../../../redux/slices/todoSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 
-const AddTask = ({ logger, task, setTask, setList, setNewTask }) => {
+const AddTask = ({ logger, task, setTask, setNewTask }) => {
 
 
-  const createTask = async (newTask) => {
-    try {
-      const response = await api.post('/todos', newTask);
-      console.log('Задача успешно создана:', response.data);
-      setList((prevItems) => [...prevItems, response.data])
-    } catch (error) {
-      console.error('Ошибка при создании задачи:', error);
-    }
-  }
+  const dispatch = useDispatch();
 
   const handleClick = () => {
     if (!!task.trim()) {
       setNewTask(task);
       logger(task);
-      createTask({title: task});
+      dispatch(fetchCreateTask({title: task}));
       setTask('')
     }
   }
@@ -29,7 +22,7 @@ const AddTask = ({ logger, task, setTask, setList, setNewTask }) => {
     if (event.key === 'Enter' && task.trim()) {
       setNewTask(task);
       logger(task);
-      createTask({title: task});
+      dispatch(fetchCreateTask({title: task}));
       setTask('')
     }
   }

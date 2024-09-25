@@ -1,11 +1,13 @@
 import styles from './doneTask.module.css';
 import isCompletedFunction from '../../../helper/isCompleted';
+import { useSelector } from 'react-redux';
 
-const DoneTask =({logger, id, handleClickDone, list, task})=> {
+const DoneTask =({logger, id, handleClickDone, task})=> {
+    const { data } = useSelector(state => state.todos);
 
     return(
-            <p className={styles.inputTask} onClick={() => handleClickDone(task,id, logger, list)}>
-                {isCompletedFunction(list, id) ? <span className={styles.isCompleted}>{task}</span> : task}
+            <p className={styles.inputTask} onClick={() => handleClickDone(task,id, logger, data)}>
+                {isCompletedFunction(data, id) ? <span className={styles.isCompleted}>{task}</span> : task}
             </p>
     )
 }
