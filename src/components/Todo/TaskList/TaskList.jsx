@@ -6,11 +6,11 @@ import InputForEditTask from '../InputForEditTask/InputForEditTask';
 import DoneTask from '../DoneTask/DoneTask';
 import WillEditTask from '../WillEditTask/WillEditTask';
 import styles from './taskList.module.css';
-import api from '../../../API/api';
 import isCompletedFunction from '../../../helper/isCompleted';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchDeleteTask } from '../../../redux/slices/todoSlice';
 import { fetchEditIsCompleted } from '../../../redux/slices/todoSlice';
+import { fetchEditTask } from '../../../redux/slices/todoSlice';
 
 const DeleteTaskListWithHOC = withLogger(DeleteTask);
 const EditTaskListWithHOC = withLogger(EditTask);
@@ -25,18 +25,6 @@ const TaskList = () => {
     const textInput = useRef(null);
     const [idEdit, setIdEdit] = useState(null);
     const [taskEdit, setTaskEdit] = useState(null);
-
-    const editTaskAPI = async(id, editTask) => {
-        try{
-            const response = await api.patch(`/todos/${id}`, editTask);
-            console.log('Задача изменена:', response.data);
-           // setList(list.map(item => item.id === id ? { ...item, title: taskEdit } : item));
-        }
-        catch (error){
-            console.error('Ошибка при удалении задачи:', error);
-        }
-    }
-
 
     const handleEdit = (id, task, logger) => {
         logger(task);
@@ -55,8 +43,7 @@ const TaskList = () => {
     }
 
     const handleSave = (id, task, logger) => {
-        //setList(list.map(item => item.id === id ? { ...item, title: task } : item));
-        editTaskAPI(id,  {title: task});
+        dispatch(fetchEditTask({id,  task: {title: task}}))
         logger(task);
         setIdEdit(null);
         setTaskEdit(null);
@@ -68,18 +55,16 @@ const TaskList = () => {
         }
     }, [idEdit]);
 
-
     return (
         <>
             <ul>
+                {console.log('p' , data)}
+                
                 {data.map((item) => {
                     return (<li key={item.id} className={styles.task}>
                         <div className={styles.inputTask}>
-                            
-                            {/* {item.title} */}
                             {idEdit === item.id ?
                                 <InputForEditTaskListWithHOC textInput={textInput} taskEdit={taskEdit} setTaskEdit={setTaskEdit} handleSave={handleSave} id={item.id} task={taskEdit} title={'Task edit'} /> :
-                               
                                  <DoneTaskListWithHOC handleClickDone={handleClickDone} id={item.id} task={item.title} title={'Task done'} />
                             }
                         </div>
@@ -90,7 +75,6 @@ const TaskList = () => {
                             }
                             <DeleteTaskListWithHOC handleClickDelete={handleClickDelete} id={item.id} task={item.title} title={'Task delete'} />
                         </div>
-
                     </li>)
                 })}
             </ul>

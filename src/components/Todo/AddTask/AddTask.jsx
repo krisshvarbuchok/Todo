@@ -1,18 +1,17 @@
 import { Button, Input, ConfigProvider } from 'antd';
 import styles from './addTask.module.css';
 import { fetchCreateTask } from '../../../redux/slices/todoSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 
 
-const AddTask = ({ logger, task, setTask, setNewTask }) => {
+const AddTask = ({ logger, task, setTask }) => {
 
 
   const dispatch = useDispatch();
 
   const handleClick = () => {
     if (!!task.trim()) {
-      setNewTask(task);
       logger(task);
       dispatch(fetchCreateTask({title: task}));
       setTask('')
@@ -20,7 +19,6 @@ const AddTask = ({ logger, task, setTask, setNewTask }) => {
   }
   const handleKeyDown = (event) => {
     if (event.key === 'Enter' && task.trim()) {
-      setNewTask(task);
       logger(task);
       dispatch(fetchCreateTask({title: task}));
       setTask('')

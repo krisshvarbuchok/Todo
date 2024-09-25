@@ -5,7 +5,7 @@ const withAuth = (WrappedComponent) => {
   return (props) => {
 
     const isAuthenticated = localStorage.getItem('token');
-    if (isAuthenticated !== undefined) {
+    if (isAuthenticated !== undefined && isAuthenticated !== null) {
       console.log(isAuthenticated);
       return <WrappedComponent {...props} />;
     } else {

@@ -1,35 +1,26 @@
 import { useForm } from 'react-hook-form';
 import {  Link, useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 import styles from './logInForm.module.css';
-import api from '../../../API/api';
+import { fetchAuthorization } from '../../../redux/slices/todoSlice';
+import { useDispatch } from 'react-redux';
 
 
 const LogInForm = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
     const navigate = useNavigate();
-
-    
-  const authorization = async (obj) => {
-    try {
-      const response = await api.post('/auth/login', obj);
-      //console.log( response.data);
-      console.log(response);
-            localStorage.setItem('token', response.data.token);
-           console.log('захожу', response.data.token);
-            navigate('/authenticated');
-    } catch (error) {
-      console.error('Ошибка при авторизации:',error.message);
-      
-    }
-  }
-
-
-
+    const dispatch = useDispatch();
 
     const onSubmit = (data) => {
+        
         console.log(data);
-        authorization(data);
+        dispatch(fetchAuthorization(data))
+            .unwrap()  // Дожидаемся окончания действия
+            .then(() => {
+                navigate('/authenticated');  // Редирект после успешной авторизации
+            })
+            .catch((error) => {
+                console.error('Ошибка авторизации:', error);
+            });
     }
     return (
         <>
