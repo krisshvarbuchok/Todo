@@ -58,8 +58,7 @@ const TaskList = () => {
     return (
         <>
             <ul>
-                {console.log('p' , data)}
-                
+                {/* {console.log('p' , data)} */}
                 {data.map((item) => {
                     return (<li key={item.id} className={styles.task}>
                         <div className={styles.inputTask}>

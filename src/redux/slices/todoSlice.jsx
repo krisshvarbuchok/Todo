@@ -12,6 +12,12 @@ const api = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URL,
 });
 
+const registration = async (newUser) => {
+    const response = await api.post('/users/register', newUser, config);
+    console.log('registr', response.data);
+    //return response.data;
+}
+
 const authorization = async (obj) => {
     const response = await api.post('/auth/login', obj, config);
     console.log(response);
@@ -53,6 +59,12 @@ const fetchAuthorization = createAsyncThunk('todos/fetchAuthorization', async (o
     return data;
 })
 
+const fetchRegistration = createAsyncThunk('todos/fetchRegistration', async (newUser) => {
+    const data = await registration(newUser);
+    console.log('reg', data);
+    return data;
+})
+
 const fetchGetTodos = createAsyncThunk('todos/fetchGetTodos', async () => {
     const { data } = await getTasks();
     console.log(data);
@@ -89,6 +101,13 @@ const todoSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+            .addCase(fetchRegistration.pending, (state) => {
+                state.status = 'loading';
+            })
+            .addCase(fetchRegistration.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                state.data = action.payload; 
+            })
             .addCase(fetchAuthorization.pending, (state) => {
                 state.status = 'loading';
             })
@@ -131,5 +150,5 @@ const todoSlice = createSlice({
     }
 })
 
-export { fetchGetTodos, fetchCreateTask, fetchDeleteTask, fetchEditIsCompleted, fetchEditTask, fetchAuthorization }
+export { fetchGetTodos, fetchCreateTask, fetchDeleteTask, fetchEditIsCompleted, fetchEditTask, fetchAuthorization , fetchRegistration }
 export default todoSlice.reducer;

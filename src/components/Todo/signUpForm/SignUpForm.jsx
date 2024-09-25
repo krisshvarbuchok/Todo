@@ -1,37 +1,21 @@
 import styles from './signUpForm.module.css';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { useState, lazy, Suspense } from 'react';
+import { fetchRegistration } from '../../../redux/slices/todoSlice';
 const ModalWindow = lazy(() => import('../ModalWindow/ModalWindow'));
 
 const SignUpForm = () => {
+    const dispatch = useDispatch();
     const [newUser, setNewUser] = useState('');
     const [isModal, setIsModal] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
 
-
-    async function registration(newUser) {
-        try {
-            const response = await fetch('https://todo-redev.herokuapp.com/api/users/register', {
-                method: "POST",
-                headers: {
-                    accept: 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(newUser)
-            });
-            const data = await response.json();
-            // console.log(data);
-            setNewUser(data);
-        } catch (error) {
-            console.log("error: ", error.message);
-        }
-    }
-
-
     const onSubmit = (data) => {
-        registration(data);
-        //console.log(data);
+        dispatch(fetchRegistration(data))
+            .unwrap();  // Дожидаемся окончания действия
+        setNewUser(data);
         setIsModal(true);
     }
 
