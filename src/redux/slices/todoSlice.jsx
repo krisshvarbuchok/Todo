@@ -22,7 +22,7 @@ const authorization = async (obj) => {
     const response = await api.post('/auth/login', obj, config);
     console.log(response);
     localStorage.setItem('token', response.data.token);
-    console.log('захожу', response.data.token);
+    //console.log('захожу', response.data.token);
     //return response.data;
 }
 
