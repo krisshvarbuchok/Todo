@@ -43,9 +43,9 @@ const TaskList = () => {
         dispatch(deleteTask(id));
     }
 
-    const handleClickDone = (task, logger) => {
+    const handleClickDone = (id, task, logger) => {
         logger(task);
-        dispatch(doneTask(task));
+        dispatch(doneTask(id));
     }
     const handleEdit = (id, task, logger) => {
         logger(task);
@@ -65,14 +65,13 @@ const TaskList = () => {
     return (
         <>
             <ul>
-
                 {list.map((item) => {
                     return (<li key={item.id} className='task'>
                         <div className='input-task'>
                             {editId === item.id ?
                                 <InputForEditTaskListWithHOC textInput={textInput} handleSave={handleSave} id={item.id} task={edit} title={'Task edit'} /> :
 
-                                <DoneTaskListWithHOC handleClickDone={handleClickDone} task={item.task} title={'Task done'} />
+                                <DoneTaskListWithHOC handleClickDone={handleClickDone} task={item.task} id={item.id} title={'Task done'} />
                             }
                         </div>
                         <div className='button-task'>

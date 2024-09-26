@@ -9,18 +9,16 @@ const AddTaskListWithHOC = withLogger(AddTask);
 
 function App() {
   const task = useSelector(state => state.newTaskRTKReducer);
-  
-return (
-  <>
+
+  return (
     <div className='app container'>
       <h1>Get things done!</h1>
-      
-      <AddTaskListWithHOC task={task} title={'Task add'}/>
-     
-      <TaskList /> 
+
+      <AddTaskListWithHOC task={task} title={'Task add'} />
+
+      <TaskList />
     </div>
-  </>
-)
+  )
 }
 
 export default App;
