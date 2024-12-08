@@ -14,15 +14,15 @@ const api = axios.create({
 
 const registration = async (newUser) => {
     const response = await api.post('/users/register', newUser, config);
-    console.log('registr', response.data);
+    //console.log('registr', response.data);
     //return response.data;
 }
 
 const authorization = async (obj) => {
     const response = await api.post('/auth/login', obj, config);
-    console.log(response);
+    //console.log(response);
     localStorage.setItem('token', response.data.token);
-    //console.log('захожу', response.data.token);
+    console.log('захожу', response.data.token);
     //return response.data;
 }
 

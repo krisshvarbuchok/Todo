@@ -49,7 +49,7 @@ if (status === 'failed') {
           {status === 'succeeded' &&
             data &&
             <TaskList />}
-          {/* {console.log(status)} */}
+          {console.log(status)}
 
         </div>
       </div>
